@@ -1,0 +1,90 @@
+ <!DOCTYPE html>
+<html>
+<head>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" type="text/css" href="project.css">
+</head>
+<body  ng-app="myApp" ng-controller="myCtrl">
+	<fieldset>
+		<legend>Mock1</legend>
+			<div id="fd">
+			<div id="ps">
+			<select class="main" ng-model="selected" id="de">
+				<option value="">Categories</option>
+			<option ng-repeat="x in categories">{{x}}</option>
+			</select><i class="fa fa-close" onclick="del()"></i><br>
+			</div>
+	       <div id="p1">
+		     <div id="p2">
+	<div class="line"></div><div id="container"><button id="create" class="w3-button w3-large w3-circle " onclick="plus()">+</button></div>
+	</div>
+	</div>
+		</div>
+		<div>
+			<br><br>
+		<p1>Quantity <font color=red><sup>★</sup></font></p1>
+		<p2>Amount <font color=red><sup>★</sup></font></p2><br></div>
+		Product:&nbsp<input type="text" name="product" placeholder="item1">&nbsp&nbsp&nbsp
+			<input type="text" name="qty" size="10" placeholder="1">&nbsp&nbsp&nbsp
+			
+			<input type="text" name="amt" size="8" placeholder="10">
+			
+			
+</fieldset>
+</div>
+
+			<button id="we" onclick="Add()">ADD</button>
+</body>
+</html>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+      $http.get("http://35.154.241.44:5555/api/v1/gspade/data")
+      .then(function(response) {
+          $scope.categories = response.data.categories;
+      });
+    });
+  </script>
+
+<script type="text/javascript">
+var _counter = 0;
+function Add() {
+    _counter++;
+    var oClone = document.getElementById("ps").cloneNode(true);
+    oClone.id += (_counter + "");
+    document.getElementById("fd").appendChild(oClone);
+}
+ function del() {
+    var x = document.getElementById("ps1");
+    x.remove();
+    document.getElementById('we').disabled=false;
+}
+	document.getElementById('we').onclick = function(){
+ this.style.backgroundColor = "#ccc";
+ Add();
+ this.disabled=true;
+}
+</script>
+<script type="text/javascript">
+	var _counter = 0;
+function plus() {
+    _counter++;
+    var oClone = document.getElementById("p2").cloneNode(true);
+    oClone.id += (_counter + "");
+    document.getElementById("p1").appendChild(oClone);
+    Add();
+}
+</script>
+<script type="text/javascript">
+$(document).on('click', '#create', function() {
+  $('#container').fadeOut(function(){
+    $('#container').html('<select class="sel"><option>ADD</option><option>OR</option></select>');
+  });
+  
+  $('#container').fadeIn(1000); // 5 second fade
+});
+</script>
